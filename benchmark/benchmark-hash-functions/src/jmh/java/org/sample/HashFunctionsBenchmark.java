@@ -31,16 +31,18 @@
 
 package org.sample;
 
+import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.infra.Blackhole;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -49,7 +51,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class HashFunctionsBenchmark {
 
-    private static final byte[] data = RandomStringUtils.random(32768).getBytes();
+    private static final byte[] data = new byte[64 * 1024];
     private static final HashFunction MD5 = Hashing.md5();
     private static final HashFunction SHA1 = Hashing.sha1();
     private static final HashFunction CRC32 = Hashing.adler32();
@@ -57,33 +59,43 @@ public class HashFunctionsBenchmark {
     private static final HashFunction SIP24 = Hashing.sipHash24();
     private static final HashFunction MURMUR3 = Hashing.murmur3_128();
 
-    @Benchmark
-    public void md5() {
-        MD5.hashBytes(data);
+    static {
+        new Random(123412341234L).nextBytes(data);
     }
 
     @Benchmark
-    public void adler32() {
-        ADLER32.hashBytes(data);
+    public void md5(Blackhole blackhole) {
+        HashCode hash = MD5.hashBytes(data);
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void crc32() {
-        CRC32.hashBytes(data);
+    public void adler32(Blackhole blackhole) {
+        HashCode hash = ADLER32.hashBytes(data);
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void sha1() {
-        SHA1.hashBytes(data);
+    public void crc32(Blackhole blackhole) {
+        HashCode hash = CRC32.hashBytes(data);
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void sip24() {
-        SIP24.hashBytes(data);
+    public void sha1(Blackhole blackhole) {
+        HashCode hash = SHA1.hashBytes(data);
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void murmur3() {
-        MURMUR3.hashBytes(data);
+    public void sip24(Blackhole blackhole) {
+        HashCode hash = SIP24.hashBytes(data);
+        blackhole.consume(hash);
+    }
+
+    @Benchmark
+    public void murmur3(Blackhole blackhole) {
+        HashCode hash = MURMUR3.hashBytes(data);
+        blackhole.consume(hash);
     }
 }
