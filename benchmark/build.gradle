@@ -20,10 +20,6 @@ subprojects {
 
     jmh {
         jmhVersion = "1.12"
-        warmupForks = 0
-        fork = 1
-        warmupIterations = 3
-        iterations = 5
         resultFormat = "CSV"
     }
 }
