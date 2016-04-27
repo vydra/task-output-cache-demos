@@ -1,0 +1,2 @@
+include "benchmark-hash-functions"
+include "benchmark-string-encoding"

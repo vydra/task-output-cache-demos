@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.me.champeau.gradle:jmh-gradle-plugin:0.3.0"
+    }
+}
+
+apply plugin: "idea"
+
+subprojects {
+    apply plugin: "me.champeau.gradle.jmh"
+
+    repositories {
+        jcenter()
+    }
+
+    jmh {
+        jmhVersion = "1.12"
+        warmupForks = 0
+        fork = 1
+        warmupIterations = 3
+        iterations = 5
+        resultFormat = "CSV"
+    }
+}
