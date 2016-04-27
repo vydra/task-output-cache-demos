@@ -31,18 +31,19 @@
 
 package org.sample;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 @Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -51,31 +52,35 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class Md5Hash100CharString {
 
-    // private static final String STRING = RandomStringUtils.random(100, 0, Integer.MAX_VALUE, true, false);
-    private static final String STRING = RandomStringUtils.random(100, true, false);
     private static final HashFunction MD5 = Hashing.md5();
 
-    static {
-        System.out.println("String: " + STRING);
+    @Param({
+            "AwXHEwdNWzqBZrrmwHNpQpAyzlGYyvaIbXImpcbjgPqOcakAJWrjzxviexzMejlansMmrSYPtgHgyavuerxWcuNNBGBZNijsQxjD",
+            "짔ⴺ益わ悻띾欉츆袛蕷脆鑁怂躛娨꿜氓ᦉ杸Ȳ辐㮳풫줈㣥牨禗磿昩ꐲꚦ訆衂㔕徝謏ﭬ䆾꺘蓿ꀞϓ爲Йſ寐疪쿪坤ﵹ鹗䖪㣂垵ⶱ䱛眍㳮뻎퉼졪㭚悌㫢ꂲ摼斝ᙪ尥븑护鑋꽗헌ꏀ먲봙λᡑェຮ忧䉍㽘㱴揇꺸㾷該牕퐎㗽쎳뮥岧庆䔓颤Z鮐",
+    })
+    private String string;
+
+    @Benchmark
+    public void unencoded(Blackhole blackhole) {
+        HashCode hash = MD5.hashUnencodedChars(string);
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void unencoded() {
-        MD5.hashUnencodedChars(STRING);
+    public void defaultEncoding(Blackhole blackhole) {
+        HashCode hash = MD5.hashBytes(string.getBytes());
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void defaultEncoding() {
-        MD5.hashBytes(STRING.getBytes());
+    public void utf16(Blackhole blackhole) {
+        HashCode hash = MD5.hashBytes(string.getBytes(Charsets.UTF_16));
+        blackhole.consume(hash);
     }
 
     @Benchmark
-    public void utf16() {
-        MD5.hashBytes(STRING.getBytes(StandardCharsets.UTF_16));
-    }
-
-    @Benchmark
-    public void utf8() {
-        MD5.hashBytes(STRING.getBytes(StandardCharsets.UTF_8));
+    public void utf8(Blackhole blackhole) {
+        HashCode hash = MD5.hashBytes(string.getBytes(Charsets.UTF_8));
+        blackhole.consume(hash);
     }
 }
