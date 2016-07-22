@@ -1,5 +1,7 @@
 # Simple local caching
 
+This is a test scenario that demonstrates the difference between using the new task output caching vs. relying only on the existing incremental builds feature.
+
 ## With caching disabled
 
 Build project, run application:
