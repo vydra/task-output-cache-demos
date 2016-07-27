@@ -10,7 +10,7 @@ Hazelcast itself is an in-memory data store, so it will only keep track of the c
 
 At this point in the development of the task output cache feature it has the following limitations:
 
-* One of the main points of using the same cache backend with builds executed on different hosts is that one build can reuse the results from builds that were executed on another machine. For now this will only work if the input file paths are exactly the same. This practically means that if you ran the build in the `/Users/lptr/Workspace/gradle-task-cache` directory on host A, you'll need to run it from the exact same directory on host B as well for caching to work. This limitation will be lifted once issue #18 is implemented.
+* One of the main points of using the same cache backend with builds executed on different hosts is that one build can reuse the results from builds that were executed other machines. For now this will only work if the input file paths are exactly the same. This practically means that if you ran the build in the `/Users/lptr/Workspace/gradle-task-cache` directory on host A, you'll need to run it from the exact same directory on host B as well for caching to work. This limitation will be lifted once issue #18 is implemented.
 * The only task types that are cached by default are `JavaCompile` and `Jar`. More tasks are going to be made cached later, focusing on the Java toolchain first. If needed, caching for a task can be turned on via `TaskOutputs.cacheIf { true }`.
 * Difference in the Java toolchain being used to run the compilation is not recognized at this point. (See #39.)
 
