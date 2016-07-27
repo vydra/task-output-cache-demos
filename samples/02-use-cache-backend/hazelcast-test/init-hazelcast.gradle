@@ -1,6 +1,6 @@
 initscript {
 	repositories {
-		maven { url "https://lptr.github.io/gradle-hazelcast-plugin/repo/" }
+		maven { url "https://gradle.github.io/gradle-hazelcast-plugin/repo/" }
 	    mavenCentral()
 	}
 
