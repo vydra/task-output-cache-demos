@@ -1,10 +1,10 @@
-# Testing with Hazelcast
+# Using a cache backend service
 
 This scenario demonstrates the use of a cache backned service. The tests can be ran locally, and they can also be used to demonstrate the use of the cache backend by builds running on different hosts.
 
-We are going to use a [Hazelcast](http://hazelcast.org) node as the cache backend. Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running. This makes it easy to discard the cached data when needed by restarting the node.
+We are going to use a [Hazelcast](http://hazelcast.org) node as the cache backend. This backend serves as the reference implementation for other cache backend implementations, and it can be found in the [`gradle-hazelcast-plugin` repository](https://github.com/lptr/gradle-hazelcast-plugin). This is an [init-script plugin](https://docs.gradle.org/current/userguide/init_scripts.html#N14C1D) that is not part of the Gradle distribution. Plugins supporting other backends can be created in a similar way by implementing the [`TaskOutputCacheFactory` interface](https://github.com/gradle/gradle/blob/b78f935c8c18ec4ea695049d3697025ba3a945e2/subprojects/core/src/main/java/org/gradle/api/internal/tasks/cache/TaskOutputCacheFactory.java).
 
-Hazelcast can work as a distributed cache with nodes talking to each other. For this test however we are going to create a centralized cache service with a single standalone node.
+Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running. This makes it easy to discard the cached data when needed by restarting the node. Hazelcast can work as a distributed cache with nodes talking to each other. For this test however we are going to create a centralized cache service with a single standalone node.
 
 ## Preparations
 
