@@ -1,14 +1,14 @@
 # Testing with Hazelcast
 
-This test demonstrates the use of a cache backned service. It can be ran locally, and it can also be used to demonstrate the use of the cache backend by builds running on different hosts.
+This scenario demonstrates the use of a cache backned service. The tests can be ran locally, and they can also be used to demonstrate the use of the cache backend by builds running on different hosts.
 
-We are using a [Hazelcast](http://hazelcast.org) node as the cache backend. Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running. This makes it easy to discard the cached data by restarting the node.
+We are going to use a [Hazelcast](http://hazelcast.org) node as the cache backend. Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running. This makes it easy to discard the cached data when needed by restarting the node.
 
 Hazelcast can work as a distributed cache with nodes talking to each other. For this test however we are going to create a centralized cache service with a single standalone node.
 
 ## Preparations
 
-Build the `hazelcast-server` tool first. This will be used to start the Hazelcast node:
+We first need the standalone Hazelcast node to be up and running. For this, let's build the `hazelcast-server` tool first:
 
 ```text
 $ cd hazelcast-server
@@ -22,7 +22,7 @@ $ ./gradlew installDist
 :installDist
 ```
 
-Now you can fire up the Hazelcast node:
+Now we can fire up the Hazelcast node:
 
 ```text
 $ build/install/hazelcast-server/bin/hazelcast-server run
@@ -83,7 +83,7 @@ Hello World!
 
 ## Using the cache from a different host
 
-It is possible to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. The `org.gradle.cache.tasks.hazelcast.port` property can similarly be used to specify the TCP port the Hazelcast server is running on.
+It is possible to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. The `org.gradle.cache.tasks.hazelcast.port` property can similarly be used to specify the TCP port the Hazelcast server is running on. (When started, the Hazelcast server will print its IP address.)
 
 Let's run the same build from a different machine:
 
@@ -97,9 +97,9 @@ Task output caching is an incubating feature.
 Hello World!
 ```
 
-### Changing the Hazelcast port
+### Changing the Hazelcast TCP port
 
-When you start the Hazelcast server, it prints its IP. You can also set the port it uses (the default is `5701`):
+It is also possible to set the TCP port used explicitly (the default is `5701`):
 
 ```text
 $ hazelcast-server/build/install/hazelcast-server/bin/hazelcast-server run --port 5710
