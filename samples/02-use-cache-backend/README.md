@@ -43,22 +43,14 @@ We are now ready to use the cache!
 
 ## Testing locally
 
-Let's first clean everything:
-
-```text
-$ cd ..
-$ cd hazelcast-test
-$ ./gradlew clean
-:clean
-```
-
-The configuration for task caching now happens in an init-script under [`hazelcast-test/init-hazelcast.gradle`](hazelcast-test/init-hazelcast.gradle). It applies the [`gradle-hazelcast-plugin`](https://github.com/gradle/gradle-hazelcast-plugin) which enables caching via a Hazelcast backend.
+The configuration for task caching now happens in an init-script under [`hazelcast-test/init-hazelcast.gradle`](hazelcast-test/init-hazelcast.gradle). It applies the [`gradle-hazelcast-plugin`](https://github.com/gradle/gradle-hazelcast-plugin) which enables task output caching via a Hazelcast backend.
 
 Let's run the build on the same machine. The default settings should work fine:
 
 ```text
-$ /gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle run
+$ /gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
+:clean
 :compileJava
 :processResources UP-TO-DATE
 :classes
@@ -68,20 +60,14 @@ Hello World!
 
 At this time, the results of `:compileJava` and `:jar` were stored in the cache.
 
-Let's remove the build results again:
+**Note:** Running the `clean` task as part of the build is a safety measure. If the build has already been executed, this removes any output present in the `build` directory. Had we not done this, the incremental build feature in Gradle could mark some tasks as `UP-TO-DATE`, which in turn would prevent the task from executing even before the new caching mechanism could kick in.
+
+Let's run the build again:
 
 ```text
-$ ./gradlew clean
-:clean
-```
-
-**Note:** We need to do this, because if we don't, the next time we run the build, the incremental build feature will detect that the tasks are already `UP-TO-DATE`, and we'll not load their results from the cache.
-
-So once we took care of removing the previous build outputs, we can run the build again:
-
-```text
-$ ./gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle run
+$ ./gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
+:clean
 :compileJava CACHED
 :processResources UP-TO-DATE
 :classes UP-TO-DATE
@@ -89,16 +75,21 @@ Task output caching is an incubating feature.
 Hello World!
 ```
 
+Notice how `:compileJava` is now `CACHED`.
+
 
 ## Using the cache from a different host
 
-It is possible to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. The `org.gradle.cache.tasks.hazelcast.port` property can similarly be used to specify the TCP port the Hazelcast server is running on. (When started, the Hazelcast server will print its IP address.)
+Let's try to use the stored results from another computer. If you want to try this, for now you need to make sure that the sources are located in exactly the same location on each computer (see note about this limitation at the introduction).
+
+We're going to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. When started, the Hazelcast server will print its IP address.
 
 Let's run the same build from a different machine:
 
 ```text
-$ ./gradlew -Dorg.gradle.cache.tasks=true -Dorg.gradle.cache.tasks.hazelcast.host=192.168.1.7 -I init-hazelcast.gradle run
+$ ./gradlew -Dorg.gradle.cache.tasks=true -Dorg.gradle.cache.tasks.hazelcast.host=192.168.1.7 -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
+:clean
 :compileJava CACHED
 :processResources UP-TO-DATE
 :classes UP-TO-DATE
@@ -108,13 +99,15 @@ Hello World!
 
 ### Changing the Hazelcast TCP port
 
-It is also possible to set the TCP port used explicitly (the default is `5701`):
+It is also possible to set the TCP port used explicitly via the `org.gradle.cache.tasks.hazelcast.port` property (the default is `5701`):
 
 ```text
 $ hazelcast-server/build/install/hazelcast-server/bin/hazelcast-server run --port 5710
 Jul 27, 2016 1:55:58 PM com.hazelcast.instance.Node
 WARNING: [192.168.1.7]:5710 [dev] [3.6.4] No join method is enabled! Starting standalone.
 ```
+
+### More about the Hazelcast server tool
 
 The server tool has some more options:
 
