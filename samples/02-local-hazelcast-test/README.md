@@ -1,10 +1,10 @@
 # Testing with Hazelcast
 
-This scenario is about running a build using a [Hazelcast](http://hazelcast.org) node as the cache backend. Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running.
+This test demonstrates the use of a cache backned service. It can be ran locally, and it can also be used to demonstrate the use of the cache backend by builds running on different hosts.
 
-Hazelcast is capable of working as a distributed cache with nodes talking to each other. For this test however we are going to use just a standalone node as a centralized cache service.
+We are using a [Hazelcast](http://hazelcast.org) node as the cache backend. Hazelcast is an in-memory database, so it will only keep track of the cached data as long as the Hazelcast node is running. This makes it easy to discard the cached data by restarting the node.
 
-This test can be ran locally, and it can also be used to demonstrate the use of the cache by multiple hosts.
+Hazelcast can work as a distributed cache with nodes talking to each other. For this test however we are going to create a centralized cache service with a single standalone node.
 
 ## Preparations
 
