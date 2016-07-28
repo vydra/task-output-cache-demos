@@ -48,7 +48,8 @@ The configuration for task caching now happens in an init-script under [`hazelca
 Let's run the build on the same machine. The default settings should work fine:
 
 ```text
-$ /gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle clean run
+$ cd hazelcast-test
+$ ./gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
 :clean
 :compileJava
