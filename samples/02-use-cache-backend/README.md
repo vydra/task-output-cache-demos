@@ -13,6 +13,7 @@ At this point in the development of the task output cache feature it has the fol
 * One of the main points of using the same cache backend with builds executed on different hosts is that one build can reuse the results from builds that were executed other machines. For now this will only work if the input file paths are exactly the same on each machine. This practically means that if you ran the build in the `/Users/lptr/Workspace/gradle-task-cache` directory on host A, you'll need to run it from the exact same directory on host B as well for caching to work. This limitation will be lifted once [issue #18](https://github.com/gradle/task-output-cache/issues/18) is implemented.
 * The only task types that are cached by default are `JavaCompile` and `Jar`. More tasks are going to be made cached later, focusing on the Java toolchain first. If needed, caching for a task can be turned on via `TaskOutputs.cacheIf { true }`.
 * Difference in the Java toolchain being used to run the compilation is not recognized at this point. (See [issue #39](https://github.com/gradle/task-output-cache/issues/39).)
+* For now if the backend is unavailble, the build fails. Graceful handling of backend outages is a feature that will be added later.
 
 
 ## Preparations
