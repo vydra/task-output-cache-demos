@@ -70,14 +70,14 @@ Let's run the build again:
 $ ./gradlew -Dorg.gradle.cache.tasks=true -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
 :clean
-:compileJava CACHED
+:compileJava FROM-CACHE
 :processResources UP-TO-DATE
 :classes UP-TO-DATE
 :run
 Hello World!
 ```
 
-Notice how `:compileJava` is now `CACHED`.
+Notice how `:compileJava` is now `FROM-CACHE`.
 
 
 ## Using the cache from a different host
@@ -92,7 +92,7 @@ Let's run the same build from a different machine:
 $ ./gradlew -Dorg.gradle.cache.tasks=true -Dorg.gradle.cache.tasks.hazelcast.host=192.168.1.7 -I init-hazelcast.gradle clean run
 Task output caching is an incubating feature.
 :clean
-:compileJava CACHED
+:compileJava FROM-CACHE
 :processResources UP-TO-DATE
 :classes UP-TO-DATE
 :run

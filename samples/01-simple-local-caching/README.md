@@ -83,14 +83,14 @@ And if we rebuild again with cache enabled:
 ```text
 $ ./gradlew -Dorg.gradle.cache.tasks=true run
 Task output caching is an incubating feature.
-:compileJava CACHED
+:compileJava FROM-CACHE
 :processResources UP-TO-DATE
 :classes UP-TO-DATE
 :run
 Hello World!
 ```
 
-Notice that `:compileJava` is now `CACHED`, i.e. it is loaded from the cache.
+Notice that `:compileJava` is now `FROM-CACHE`, i.e. it is loaded from the cache.
 
 Check the contents of the cache:
 
