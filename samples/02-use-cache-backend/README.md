@@ -99,6 +99,13 @@ Task output caching is an incubating feature.
 Hello World!
 ```
 
+### Troubleshooting
+
+A couple of things to check if running from different computers does not have the desired result (i.e. `:compileJava` being in `FROM-CACHE` state):
+
+* are the builds on the two computers running from the exact same absolute path?
+* is the version of Java the same on both computers?
+
 ### Changing the Hazelcast TCP port
 
 It is also possible to set the TCP port used explicitly via the `org.gradle.cache.tasks.hazelcast.port` property (the default is `5701`):
