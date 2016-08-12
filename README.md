@@ -1,6 +1,6 @@
 # Task Output Cache
 
-Task output caching is a new kind of cache mechanism in Gradle that aims to save time by, instead of executing a task, reusing results produced by previous executions of the same task with matching inputs. Reusing results can happen between builds happening in the same project, or in two different projects on the same computer, or even between builds running on different computers. Task output caching does not define the service to be used to store and retreive the result; it only specifies a very simple protocol that can be implemented in order to adopt all kinds of existing services as cache backends.
+Task output caching is a new kind of cache mechanism in Gradle that aims to save time by, instead of executing a task, reusing results produced by previous executions of the same task with matching inputs. Reusing results can happen between builds happening in the same project, or in two different projects on the same computer, or even between builds running on different computers. Task output caching does not define the service to be used to store and retreive the results. Instead it only specifies a simple protocol that can be implemented to adopt different kinds of existing services as cache backends.
 
 ## The project board
 
