@@ -1,5 +1,7 @@
 # Task Output Cache
 
+Task output caching is a new kind of cache mechanism in Gradle that aims to save time by, instead of executing them, reusing results produced by previous executions of the same task with matching inputs. Reusing results can happen between builds happening in the same or in two different projects on the same computer, or even between builds running on different computers. Task output caching does not define the service to be used to store and retreive the result; it only specifies a very simple protocol that can be implemented in order to adopt all kinds of existing services as cache backends.
+
 ## The project board
 
 See the [ZenHub board](https://github.com/gradle/task-output-cache/issues#boards) for the status of the project. You'll need to have [ZenHub](http://zenhub.com/) installed for your browser. Without the ZenHub extension you'll only see the regular GitHub issues.
