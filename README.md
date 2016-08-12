@@ -14,31 +14,3 @@ We now have [sample scenarios](samples) you can try out. If you want to try the 
 ### Local cache backend directory configuration
 
 Task output caching currently works with a local directory as the cache backend. There is no eviction policy, so entries once added to the cache stay there indefinitely. The cache directory by default is in `$GRADLE_HOME/task-cache`. It can be moved to a different location by supplying `-Dorg.gradle.cache.tasks.directory=...`. This can be useful when setting up automated tests for example.
-
-
-------------------------
-
-## Benchmarks
-
-See [JMH](http://openjdk.java.net/projects/code-tools/jmh/) benchmark sources in the [`benchmark`](./benchmark) project.
-
-### Hash function performances
-
-These are all using Guava's `HashFunction`s:
-
-![](images/Hash functions Java 8.png)
-![](images/Hash functions Java 7.png)
-
-### Hashing strings
-
-Methods used:
-
-* **unencoded** – `HashFunction.hashUnencodedString(string)`
-* **default** `HashFunction.hash(string.getBytes())`
-* **UTF-8** `HashFunction.hash(string.getBytes(Charsets.UTF8))`
-* **UTF-16** `HashFunction.hash(string.getBytes(Charsets.UTF16))`
-
-The **latin** results used 100 latin letters while **unicode** results used 100 random unicode characters.
-
-![](images/MD5 Strings Java 8.png)
-![](images/MD5 Strings Java 7.png)
