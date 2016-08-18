@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class HashMultiThreadBenchmark {
 
-    private static final int FILE_COUNT = 1536;
+    private static final int FILE_COUNT = 1024;
     private static final HashFunction MD5 = Hashing.md5();
     private final List<File> dataFiles = Lists.newArrayListWithCapacity(FILE_COUNT);
 
@@ -75,7 +75,11 @@ public class HashMultiThreadBenchmark {
             File dataFile = new File("data" + i + ".bin");
             Files.write(data, dataFile);
             dataFiles.add(dataFile);
+            if (i % 128 == 0) {
+                System.out.print(".");
+            }
         }
+        System.out.printf("Created %d test files ", FILE_COUNT);
     }
 
     private Queue<File> testFiles;
@@ -95,7 +99,7 @@ public class HashMultiThreadBenchmark {
         }
     }
 
-    private void runBatch(Blackhole blackhole) throws IOException {
+    private void hashSingleFile(Blackhole blackhole) throws IOException {
         File file = testFiles.poll();
         if (file == null) {
             throw new RuntimeException("No more files");
@@ -107,24 +111,24 @@ public class HashMultiThreadBenchmark {
     @Benchmark
     @Threads(1)
     public void runWith1Thread(Blackhole blackhole) throws IOException {
-        runBatch(blackhole);
+        hashSingleFile(blackhole);
     }
 
     @Benchmark
     @Threads(2)
     public void runWith2Threads(Blackhole blackhole) throws IOException {
-        runBatch(blackhole);
+        hashSingleFile(blackhole);
     }
 
     @Benchmark
     @Threads(4)
     public void runWith4Threads(Blackhole blackhole) throws IOException {
-        runBatch(blackhole);
+        hashSingleFile(blackhole);
     }
 
     @Benchmark
     @Threads(8)
     public void runWith8Threads(Blackhole blackhole) throws IOException {
-        runBatch(blackhole);
+        hashSingleFile(blackhole);
     }
 }
