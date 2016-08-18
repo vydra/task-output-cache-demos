@@ -9,7 +9,9 @@ buildscript {
     }
 }
 
-apply plugin: "idea"
+allprojects {
+    apply plugin: "idea"
+}
 
 subprojects {
     apply plugin: "me.champeau.gradle.jmh"
