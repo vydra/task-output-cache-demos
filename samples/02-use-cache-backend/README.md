@@ -80,9 +80,7 @@ Notice how `:compileJava` is now `FROM-CACHE`.
 
 ## Using the cache from a different host
 
-Let's try to use the stored results from another computer. If you want to try this, for now you need to make sure that the sources are located in exactly the same location on each computer (see note about this limitation at the introduction).
-
-We're going to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. When started, the Hazelcast server will print its IP address.
+Let's try to use the stored results from another computer. We're going to specify the Hazelcast node's host via `org.gradle.cache.tasks.hazelcast.host`. When started, the Hazelcast server will print its IP address.
 
 Let's run the same build from a different machine:
 
