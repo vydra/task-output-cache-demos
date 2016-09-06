@@ -1,5 +1,7 @@
 # Using a cache backend service
 
+[![Demo video](video.png)](https://youtu.be/taiO-5l428g)
+
 This scenario demonstrates the use of a cache backend service. The first part of the scenario demonstrates using the backend service locally. The second part shows how it works when the backend is accessed from builds running on different hosts.
 
 We are going to use a [Hazelcast](http://hazelcast.org) node as the cache backend. An [init-script plugin](https://docs.gradle.org/current/userguide/init_scripts.html#N14C1D) implements the connection between the Gradle build tool and the Hazelcast node. This init-script plugin is not part of the Gradle distribution, but is a standalone plugin that lives in the [`gradle-hazelcast-plugin` repository](https://github.com/gradle/gradle-hazelcast-plugin). It also serves as the reference implementation for Gradle cache backend support. Plugins supporting other backends (like Redis, Varnish etc.) can be created in a similar way by implementing the `TaskOutputCacheFactory` interface like [it is done in the Hazelcast plugin](https://github.com/gradle/gradle-hazelcast-plugin/blob/6f1c5ab64e6d9cad2a15fda26d994e4e07d9a51c/src/main/java/org/gradle/cache/tasks/hazelcast/HazelcastPlugin.java).
