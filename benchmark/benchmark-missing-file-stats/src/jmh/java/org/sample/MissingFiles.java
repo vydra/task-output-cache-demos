@@ -59,7 +59,7 @@ public class MissingFiles {
     public void setup() throws IOException {
         missingFile = new File("missing.txt");
         missingFile.delete();
-        existingFile = new File("missing.txt");
+        existingFile = new File("existing.txt");
         existingFile.createNewFile();
     }
 
