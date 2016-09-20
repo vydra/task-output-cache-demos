@@ -1,11 +1,11 @@
 initscript {
 	repositories {
-		maven { url "https://gradle.github.io/gradle-hazelcast-plugin/repo/" }
+		maven { url "http://repo.gradle.org/gradle/repo/" }
 	    mavenCentral()
 	}
 
 	dependencies {
-	    classpath "org.gradle.cache.tasks.hazelcast:gradle-hazelcast-plugin:0.1.+"
+	    classpath "org.gradle.cache.tasks.hazelcast:gradle-hazelcast-plugin:0.1.1"
 	}
 }
 
