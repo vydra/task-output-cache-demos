@@ -45,7 +45,7 @@ Given a set of inputs consisting of one or more file hierarchies, Gradle support
 
 A cacheable task should have declared outputs, either via `@OutputFile` and `@OutputDirectory` properties, or by calling `TaskOutputs.file()` and `dir()`.
 
-**Note:** We don't yet support caching tasks with `@Optional` (see #81) or plural outputs (see #57).
+**Note:** We don't yet support caching tasks with `@Optional` (see [#81](https://github.com/gradle/task-output-cache/issues/81)) or plural outputs (see [#57](https://github.com/gradle/task-output-cache/issues/57)).
 
 ## Troubleshooting
 
