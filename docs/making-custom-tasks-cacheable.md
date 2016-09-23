@@ -46,3 +46,79 @@ Given a set of inputs consisting of one or more file hierarchies, Gradle support
 A cacheable task should have declared outputs, either via `@OutputFile` and `@OutputDirectory` properties, or by calling `TaskOutputs.file()` and `dir()`.
 
 **Note:** We don't yet support caching tasks with `@Optional` (see #81) or plural outputs (see #57).
+
+## Troubleshooting
+
+If a task doesn't get loaded from cache when in theory it should, there's a couple of things one can do. Running the build with `--info` will display the cache key generated for each task. Using `--debug` also gives information about what information is used to generate the key:
+
+```text
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.execution.SkipCachedTaskExecuter] Determining if task ':jar' is cached already
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: org.gradle.api.tasks.bundling.Jar_Decorated
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending bytes to cache key: 27:89:cb:1e:7b:d7:a3:7e:23:c4:aa:32:12:31:c2:25
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending bytes to cache key: 79:80:c2:22:82:96:b7:bd:e5:6e:1a:17:15:c5:74:c1
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: entryCompression
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: org.gradle.api.tasks.bundling.ZipEntryCompression
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: DEFLATED
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: manifestContentCharset
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: UTF-8
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: metadataCharset
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: UTF-8
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.caseSensitive
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.229 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.destPath
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key:
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.dirMode
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.duplicatesStrategy
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: org.gradle.api.file.DuplicatesStrategy
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: INCLUDE
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.fileMode
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.filteringCharset
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: UTF-8
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1.includeEmptyDirs
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.caseSensitive
+15:49:57.230 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.destPath
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: META-INF
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.dirMode
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.duplicatesStrategy
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: org.gradle.api.file.DuplicatesStrategy
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: INCLUDE
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.fileMode
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.filteringCharset
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: UTF-8
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1.includeEmptyDirs
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.caseSensitive
+15:49:57.231 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.destPath
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: META-INF
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.dirMode
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.duplicatesStrategy
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: org.gradle.api.file.DuplicatesStrategy
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: INCLUDE
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.fileMode
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: $NULL
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.filteringCharset
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: UTF-8
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2.includeEmptyDirs
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: true
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: zip64
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending boolean to cache key: false
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$1
+15:49:57.232 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: Hello.class
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending bytes to cache key: 0e:40:02:9b:76:2e:76:00:6e:ea:4a:05:0b:28:32:79
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: resource.properties
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending bytes to cache key: c7:05:0e:12:05:6d:29:39:5c:1e:4c:63:1e:6b:59:c5
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: rootSpec$2$1
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending string to cache key: MANIFEST.MF
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Appending bytes to cache key: 12:33:05:d4:e8:0b:67:4b:6e:86:1c:ea:db:40:c6:7b
+15:49:57.233 [DEBUG] [org.gradle.api.internal.tasks.cache.DefaultTaskCacheKeyBuilder] Hash code generated: 3c328c0550b86de6029a7dafaaa56d85
+15:49:57.233 [INFO] [org.gradle.api.internal.tasks.execution.SkipCachedTaskExecuter] Cache key for task ':jar' is 3c328c0550b86de6029a7dafaaa56d85
+```
