@@ -20,7 +20,7 @@ To a lesser degree false negatives (i.e. not recognizing a cached result that wo
 
 The reuse of cached results depends on whether or not we can recognize a hit. Gradle by default takes the full path of input files into account when considering a task. This means that by default a task's results can only be reused if the absolute path of the inputs match. This means cached results will only be reused in the same local Gradle project. To enable sharing results between hosts each host must run the builds from the exact same path.
 
-To relax this requirement, a task can declare its input's _path sensitivity._ This basically allows Gradle to ignore parts or all of an input file's path when considering the task state, and ultimately generatign the cache key.
+To relax this requirement, a task can declare its input's _path sensitivity._ This basically allows Gradle to ignore parts or all of an input file's path when considering the task state, and ultimately generating the cache key.
 
 For many tasks this can be appropriate, as we only need to consider the parts of a file's path that actually has an effect on the task's output.
 
@@ -35,7 +35,7 @@ public FileTree getSources() {
 Given a set of inputs consisting of one or more file hierarchies, Gradle supports the following strategies of handling files being moved:
 
 * `@PathSensitive(PathSensitivity.ABSOLUTE)` – this is the default behavior: any of the files is moved to a different path is considered as a change of the task's inputs.
-* `@PathSensitive(PathSensitivity.RELATIVE)` – the location of the file hierarchies on disk are ignored. Only when a file is moved relative to its containing hierarchy do we consider the inputs changed. One example is an ANTLR grammer where the location of the input file is important, because the generated files will be placed in a similar directory hierarchy.
+* `@PathSensitive(PathSensitivity.RELATIVE)` – the location of the file hierarchies on disk are ignored. Only when a file is moved relative to its containing hierarchy do we consider the inputs changed. One example is an ANTLR grammar where the location of the input file is important, because the generated files will be placed in a similar directory hierarchy.
 * `@PathSensitive(PathSensitivity.NAME_ONLY)` – the paths of the files are ignored, and only files being renamed are considered as changes to the task's inputs. Java sources are treated like this in the `JavaCompile` task.
 * `@PathSensitive(PathSensitivity.NONE)` – the path of name of any of the input files can change freely without the task's input being considered different. This setting is ideal for things like configuration files where only the contents of the file matter.
 * `@Classpath` – this is specifically for Java classpath inputs. It's similar to how `RELATIVE` works, but it ignores file names for files added directly to the classpath.
