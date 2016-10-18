@@ -22,22 +22,51 @@ iframe {
 	border: 1px solid grey;
 }
 
-#sanity-check {
+#comparison-overview {
 	padding: 0;
 	margin: 0;
 	width: 1200px;
-	height: 1500px;
+	height: 600px;
 	overflow-x: hidden;
 	overflow-y: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 </style>
 <body>
 <h1>Comparison of build times</h1>
+<nav id="navigation">
+    <ul>
+        <li>
+            <a href="https://builds.gradle.org/repository/download/Hygiene_CiHealthDaily/1last.lastSuccessful/reports/task-cache/details/index.html">
+                Details by stages
+            </a>
+        </li>
+        <li>
+            <a href="https://builds.gradle.org/repository/download/Hygiene_CiHealthDaily/1last.lastSuccessful/reports/task-cache/details/index.html">
+                Details by build type
+            </a>
+        </li>
+    </ul>
+</nav>
 <p>
-    <a href="https://builds.gradle.org/repository/download/Hygiene_CiHealthDaily/1last.lastSuccessful/reports/task-cache/details/index.html">
-        Details per build type
-    </a>
 </p>
-<iframe id="sanity-check" src="https://builds.gradle.org/repository/download/Hygiene_CiHealthDaily/1last.lastSuccessful/reports/task-cache/stages/index.html"></iframe>
+<iframe id="comparison-overview" src="https://builds.gradle.org/repository/download/Hygiene_CiHealthDaily/1last.lastSuccessful/reports/task-cache/overview/index.html"></iframe>
 </body>
 </html>
