@@ -47,8 +47,6 @@ A cacheable task should have declared outputs, either via `@OutputFile` and `@Ou
 
 **Note:** all outputs for cacheable tasks are considered relocatable. Tasks that produce outputs that are not relocatable should not be cached.
 
-**Note:** We don't yet support caching tasks with `@Optional` (see [#81](https://github.com/gradle/task-output-cache/issues/81)) or plural outputs (see [#57](https://github.com/gradle/task-output-cache/issues/57)).
-
 ## Troubleshooting
 
 If a task doesn't get loaded from cache when in theory it should, there's a couple of things one can do. Running the build with `--info` will display the cache key generated for each task. Using `--debug` also gives information about what information is used to generate the key:
