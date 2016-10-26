@@ -16,13 +16,13 @@ The importance of declaring all inputs of a cacheable task and declaring them co
 
 To a lesser degree false negatives (i.e. not recognizing a cached result that would be perfectly usable instead of executing a task) can lead to performance problems. On one hand we'd be executing more tasks than necessary, on the other we'd be storing the results redundantly, wasting time, bandwidth and storage space.
 
-### Relaxing input path sensitivity
+### Relaxing input relocatability
 
-The reuse of cached results depends on whether or not we can recognize a hit. Gradle by default takes the full path of input files into account when considering a task. This means that by default a task's results can only be reused if the absolute path of the inputs match. This means cached results will only be reused in the same local Gradle project. To enable sharing results between hosts each host must run the builds from the exact same path.
+The reuse of cached results depends on whether or not we can recognize a hit. Gradle by default takes the full path of input files into account when considering a task. This means that by default a task's results can only be reused if the absolute path of the inputs match. This means locally cached results will only be reused in the same Gradle project, and sharing results between hosts requires the builds to be ran from the exact same path.
 
-To relax this requirement, a task can declare its input's _path sensitivity._ This basically allows Gradle to ignore parts or all of an input file's path when considering the task state, and ultimately generating the cache key.
+Most real-world tasks don't actually rely on the absolute path of their inputs, i.e. moving the input files around without changing thier contents does not influence the output of the task. In these cases it is possible to allow sharing cached results between builds executed from different paths by declaring the _path sensitivity_ of the task's input files. Using this information Gradle will normlaize the paths of the input files, thus ignoring parts or all of it when considering the task state, and ultimately generating the cache key.
 
-For many tasks this can be appropriate, as we only need to consider the parts of a file's path that actually has an effect on the task's output.
+Path sensitivity can be specified via annotations on the task property:
 
 ```java
 @PathSensitive(PathSensitivity.NAME_ONLY)
@@ -32,7 +32,7 @@ public FileTree getSources() {
 }
 ```
 
-Given a set of inputs consisting of one or more file hierarchies, Gradle supports the following strategies of handling files being moved:
+Gradle supports the following types of path sensitivity via annotations:
 
 * `@PathSensitive(PathSensitivity.ABSOLUTE)` – this is the default behavior: any of the files is moved to a different path is considered as a change of the task's inputs.
 * `@PathSensitive(PathSensitivity.RELATIVE)` – the location of the file hierarchies on disk are ignored. Only when a file is moved relative to its containing hierarchy do we consider the inputs changed. One example is an ANTLR grammar where the location of the input file is important, because the generated files will be placed in a similar directory hierarchy.
@@ -40,12 +40,32 @@ Given a set of inputs consisting of one or more file hierarchies, Gradle support
 * `@PathSensitive(PathSensitivity.NONE)` – the path of name of any of the input files can change freely without the task's input being considered different. This setting is ideal for things like configuration files where only the contents of the file matter.
 * `@Classpath` – this is specifically for Java classpath inputs. It's similar to how `RELATIVE` works, but it ignores file names for files added directly to the classpath.
 
-
 ### Specifying outputs
 
 A cacheable task should have declared outputs, either via `@OutputFile` and `@OutputDirectory` properties, or by calling `TaskOutputs.file()` and `dir()`.
 
 **Note:** all outputs for cacheable tasks are considered relocatable. Tasks that produce outputs that are not relocatable should not be cached.
+
+### Using the runtime API
+
+To cache task outputs, Gradle needs to identify each set of input file, and each output file or directory by a unique name. When using annotations to mark up source files, Gradle automatically attaches the name of the property to the files registered. However, when using the runtime APIs like `TaskOutputs.file()` etc., a property name must be supplied in order to allow Gradle to cache the task.
+
+```groovy
+task myTask {
+  outputs.file "output.txt" withPropertyName "output"
+  // ...
+}
+```
+
+### Caching plural outputs
+
+Caching tasks that use the following APIs is currently not allowed:
+
+* `@OutputFiles`
+* `@OutputDirectories`
+* `TaskOutputs.files()`
+
+If possile, the task should be converted to use singular versions of these APIs (i.e. `@OutputFile`, `@OutputDirectory`, `TaskOutputs.file()` and `TaskOutputs.dir()`).
 
 ## Troubleshooting
 
