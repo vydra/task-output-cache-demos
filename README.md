@@ -17,6 +17,10 @@ We now have [sample scenarios](samples) you can try out. If you want to try the 
 
 We have [some documentation on that](docs/making-custom-tasks-cacheable.md).
 
+### How to diagnose task caching?
+
+See [here](docs/diagnosing-task-cache.md) how to get additional diagnostics for your build.
+
 ### Local cache backend directory configuration
 
 Task output caching currently works with a local directory as the cache backend. There is no eviction policy, so entries once added to the cache stay there indefinitely. The cache directory by default is in `$GRADLE_HOME/task-cache`. It can be moved to a different location by supplying `-Dorg.gradle.cache.tasks.directory=...`. This can be useful when setting up automated tests for example.
