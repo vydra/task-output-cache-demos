@@ -42,6 +42,7 @@ Detailed cache statistics
 </details>
 
 The output can also be formatted as csv by adding `-Dcsv` to the Gradle command line.
+The csv can be written to a file by using `-Dcsv=<file name>`.
  
 ### Overlapping output directories
 
