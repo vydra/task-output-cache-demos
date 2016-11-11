@@ -6,6 +6,11 @@ In order to get detailed diagnostics about the cache consider adding the followi
 apply from: 'https://raw.githubusercontent.com/gradle/gradle/master/gradle/taskCacheDetailedDiagnosticsInit.gradle'
 ```
 
+In order to do so just save this line to a file, say `taskCacheDiagnosticsInit.gradle` and then run your Gradle build with
+```
+./gradlew -I taskCacheDiagnosticsInit.gradle <tasks>
+```
+
 This will add the following diagnostics.
 
 ### Detailed cache statistics
@@ -50,11 +55,88 @@ We detect overlapping output directories since these can be a problem for cachin
 We can only detect overlapping output directories for tasks which are being executed.
 The information will be printed at the end of the build.
 
+<details>
+<summary>Example</summary>
+
+```
+Overlapping task outputs while executing 'core:compileJava':
+
+  - subprojects/base-services/build/classes/main/ has overlap between:
+      - :baseServices:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :baseServices:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/base-services-groovy/build/classes/main/ has overlap between:
+      - :baseServicesGroovy:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :baseServicesGroovy:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/cli/build/classes/main/ has overlap between:
+      - :cli:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :cli:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/jvm-services/build/classes/main/ has overlap between:
+      - :jvmServices:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :jvmServices:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/logging/build/classes/main/ has overlap between:
+      - :logging:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :logging:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/messaging/build/classes/main/ has overlap between:
+      - :messaging:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :messaging:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/model-core/build/classes/main/ has overlap between:
+      - :modelCore:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :modelCore:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/model-groovy/build/classes/main/ has overlap between:
+      - :modelGroovy:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :modelGroovy:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/native/build/classes/main/ has overlap between:
+      - :native:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :native:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/process-services/build/classes/main/ has overlap between:
+      - :processServices:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :processServices:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/resources/build/classes/main/ has overlap between:
+      - :resources:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :resources:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+  - subprojects/version-info/build/classes/main has overlap between:
+      - :versionInfo:compileGroovy.destinationDir (org.gradle.api.tasks.compile.GroovyCompile)
+      - :versionInfo:compileJava.destinationDir (org.gradle.api.tasks.compile.JavaCompile)
+
+  Tasks affected by type:
+
+    - org.gradle.api.tasks.compile.GroovyCompile
+      - :baseServices:compileGroovy
+      - :baseServicesGroovy:compileGroovy
+      - :cli:compileGroovy
+      - :jvmServices:compileGroovy
+      - :logging:compileGroovy
+      - :messaging:compileGroovy
+      - :modelCore:compileGroovy
+      - :modelGroovy:compileGroovy
+      - :native:compileGroovy
+      - :processServices:compileGroovy
+      - :resources:compileGroovy
+      - :versionInfo:compileGroovy
+    - org.gradle.api.tasks.compile.JavaCompile
+      - :baseServices:compileJava
+      - :baseServicesGroovy:compileJava
+      - :cli:compileJava
+      - :jvmServices:compileJava
+      - :logging:compileJava
+      - :messaging:compileJava
+      - :modelCore:compileJava
+      - :modelGroovy:compileJava
+      - :native:compileJava
+      - :processServices:compileJava
+      - :resources:compileJava
+      - :versionInfo:compileJava
+```
+</details>
+
 ### Publish inputs and outputs of tasks to Gradle Enterprise
 
 If a build scan is generated we publish some basic statistics about the cache to Gradle Enterprise.
 We use custom values for that. In addition it is possible to publish the hashes of the inputs and outputs of a task.
-Pass `-Pcache.investigate.tasks=<task path>` to the Gradle build (e.g. `-P:core:compileJava`). The property can also
+Pass `-Pcache.investigate.tasks=<task path>` to the Gradle build (e.g. `-Pcache.investigate.tasks=:core:compileJava`). The property can also
 be set to a comma separated list of task paths.
 
-To obtain this data as JSON you can use the following url: `<Gradle enterprise server>/scan-data/<scan id>/custom-values`, e.g. [https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values](https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values).
+For an example of the data published see [https://e.grdev.net/s/6ciys7ufpomni/custom-values](https://e.grdev.net/s/6ciys7ufpomni/custom-values).
+
+To obtain this data as JSON you just need to replace `/s/` in the build scan url by `/scan-data/`.
+For the example above the url would be [https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values](https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values).
