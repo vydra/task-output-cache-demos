@@ -8,10 +8,12 @@ See the [ZenHub board](https://github.com/gradle/task-output-cache/issues#boards
 
 ## How to try the feature?
 
-We now have [sample scenarios](samples) you can try out. If you want to try the cache on your own projects, you can do so by:
+We now have [sample scenarios](samples) you can try out. You can try using the [local cache backend](samples/01-simple-local-caching) the easiest, while using an [HTTP cache backend](samples/03-use-http-backend) gives you the most versatility.
+
+If you want to try the cache on your own projects, you can do so by:
 
 1. Update the wrapper in your Java project to the latest [Gradle nighlty](https://gradle.org/nightly). Make sure you are using the latest version as we are adding new features and fixing bugs every day.
-2. Run builds with `./gradlew -Dorg.gradle.cache.tasks=true`
+2. Run builds with `./gradlew -Dorg.gradle.cache.tasks=true` with the local cache backend (or you can also use the HTTP backend set up in the [HTTP backend sample](samples/03-use-http-backend)).
 
 ### How to make existing tasks cacheable?
 
