@@ -27,9 +27,9 @@ and run it via:
 
 ### Manual setup
 
-If you can't use Docker, you can also install [nginx](https://www.nginx.com) manually. The attached [`nginx.conf`](http-server/nginx.conf) can serve as an example configuration.
+If you don't want to use Docker, you can also install [nginx](https://www.nginx.com) manually. The attached [`nginx.conf`](http-server/nginx.conf) can serve as an example configuration.
 
-You can use any other HTTP server as long as it supports uploading binaries via `PUT`.
+You can also use any other HTTP server as long as it supports uploading binaries via `PUT`.
 
 ## Running builds using the backend
 
