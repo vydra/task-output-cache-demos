@@ -1,4 +1,4 @@
-# Using a cache backend service
+# Using a Hazelcast backend service
 
 [![Demo video](video.png)](https://youtu.be/taiO-5l428g)
 
@@ -7,13 +7,6 @@ This scenario demonstrates the use of a cache backend service. The first part of
 We are going to use a [Hazelcast](http://hazelcast.org) node as the cache backend. An [init-script plugin](https://docs.gradle.org/current/userguide/init_scripts.html#N14C1D) implements the connection between the Gradle build tool and the Hazelcast node. This init-script plugin is not part of the Gradle distribution, but is a standalone plugin that lives in the [`gradle-hazelcast-plugin` repository](https://github.com/gradle/gradle-hazelcast-plugin). It also serves as the reference implementation for Gradle cache backend support. Plugins supporting other backends (like Redis, Varnish etc.) can be created in a similar way by implementing the `TaskOutputCacheFactory` interface like [it is done in the Hazelcast plugin](https://github.com/gradle/gradle-hazelcast-plugin/blob/6f1c5ab64e6d9cad2a15fda26d994e4e07d9a51c/src/main/java/org/gradle/cache/tasks/hazelcast/HazelcastPlugin.java).
 
 Hazelcast itself is an in-memory data store, so it will only keep track of the cached data as long as the Hazelcast node itself is running. This makes it easy to discard the cached data when needed by restarting the node. Hazelcast can work as a distributed cache with nodes talking to each other. For this scenario however we are going to create a centralized cache service with a single standalone node.
-
-### Limitations
-
-At this point in the development of the task output cache feature it has the following limitations:
-
-* The only task types that are cached by default are `JavaCompile` and `Jar`. More tasks are going to be made cached later, focusing on the Java toolchain first. If needed, caching for a task can be turned on via `TaskOutputs.cacheIf { true }`.
-* Difference in the Java toolchain being used to run the compilation is not recognized at this point. (See [issue #39](https://github.com/gradle/task-output-cache/issues/39).)
 
 
 ## Preparations

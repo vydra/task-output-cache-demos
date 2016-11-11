@@ -1,1 +1,0 @@
-gradle.taskCaching.useCacheFactory(new org.gradle.cache.tasks.http.HttpTaskOutputCacheFactory(new URI("http://localhost:8885/")))

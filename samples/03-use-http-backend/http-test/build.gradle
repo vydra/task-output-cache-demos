@@ -1,0 +1,8 @@
+apply plugin: "java"
+apply plugin: "application"
+
+dependencies {
+  compile 'junit:junit:4.12'
+}
+
+mainClassName = "Hello"
