@@ -78,5 +78,13 @@ If running from different computers does not have the desired result (i.e. `:com
 For running the server for a longer time you may also want to add a cronjob for regularly cleaning up the cache:
 
 ```text
-0 0 * * * tmpwatch 1d
+0 0 * * * /usr/sbin/tmpreaper 3d
 ```
+
+This is using `tmpreaper` which can be installed on Debian systems via
+
+```text
+apt-get install tmpreaper
+```
+
+Its manual page can be found [here](http://manpages.ubuntu.com/manpages/xenial/man8/tmpreaper.8.html).
