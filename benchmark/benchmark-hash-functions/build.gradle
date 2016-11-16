@@ -1,4 +1,0 @@
-dependencies {
-	jmh "org.apache.commons:commons-lang3:3.4"
-	jmh "com.google.guava:guava:19.0"
-}

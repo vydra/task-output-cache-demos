@@ -1,4 +1,0 @@
-include "benchmark-hash-functions"
-include "benchmark-hash-multi-thread"
-include "benchmark-missing-file-stats"
-include "benchmark-string-encoding"
