@@ -136,7 +136,3 @@ We use custom values for that. In addition it is possible to publish the hashes 
 Pass `-Pcache.investigate.tasks=<task path>` to the Gradle build (e.g. `-Pcache.investigate.tasks=:core:compileJava`). The property can also
 be set to a comma separated list of task paths.
 
-For an example of the data published see [https://e.grdev.net/s/6ciys7ufpomni/custom-values](https://e.grdev.net/s/6ciys7ufpomni/custom-values).
-
-To obtain this data as JSON you just need to replace `/s/` in the build scan url by `/scan-data/`.
-For the example above the url would be [https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values](https://e.grdev.net/scan-data/6ciys7ufpomni/custom-values).
