@@ -1,5 +1,5 @@
-import org.gradle.cache.tasks.http.HttpTaskOutputCacheFactory
+import org.gradle.cache.http.HttpBuildCacheFactory
 
-gradle.taskCaching {
-  useCacheFactory(new HttpTaskOutputCacheFactory())
+gradle.buildCache {
+  useCacheFactory(new HttpBuildCacheFactory())
 }
