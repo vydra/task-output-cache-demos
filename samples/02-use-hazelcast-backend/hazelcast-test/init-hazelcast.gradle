@@ -5,8 +5,8 @@ initscript {
 	}
 
 	dependencies {
-	    classpath "org.gradle.cache.tasks.hazelcast:gradle-hazelcast-plugin:0.2"
+	    classpath "org.gradle.caching.hazelcast:gradle-hazelcast-plugin:0.5"
 	}
 }
 
-apply plugin: org.gradle.cache.tasks.hazelcast.HazelcastPlugin
+apply plugin: org.gradle.caching.hazelcast.HazelcastPlugin

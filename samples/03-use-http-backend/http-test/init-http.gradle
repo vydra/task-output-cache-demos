@@ -1,4 +1,4 @@
-import org.gradle.cache.http.HttpBuildCacheFactory
+import org.gradle.caching.http.internal.HttpBuildCacheFactory
 
 gradle.buildCache {
   useCacheFactory(new HttpBuildCacheFactory())
