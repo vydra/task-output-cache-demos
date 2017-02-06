@@ -96,6 +96,7 @@ Check the contents of the cache:
 
 ```text
 $ ls ~/.gradle/task-cache/
+<<on my host it was: ls ~/.gradle/caches/3.3-20161203085416+0000/task-cache/>>
 e19b127fa94b0ee3e1464408dec0ddfd
 
 $ unzip -l ~/.gradle/task-cache/e19b127fa94b0ee3e1464408dec0ddfd
